@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AESTHETE</title>
+    <link rel="stylesheet" href="aesthete.css">
+    <link rel="stylesheet" href="jquery.flipster.min.css">
+</head>
+<body>
+<header>
+    <h1>AESTHETE</h1>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="artist.html">Artist</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="upload.html" id="uploadLink">Upload Artwork</a></li>
+            <li><a href="sign_up.html">Sign up</a></li>
+        </ul>
+    </nav>
+    <form class="search-form" action="search_results.html" method="GET">
+        <input type="text" name="q" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
+</header>
+<div class="gallery">
+    <h2 style="text-align:center; margin-top: 20px;">ART TYPES</h2>
+    <div class="grid-container">
+        <div class="art-type" id="painting">
+            <img class="art-img" src="images/Blossoms Of Dream.jpg" alt="Painting">
+            <p>Painting</p>
+        </div>
+        <div class="art-type" id="sculpture">
+            <img class="art-img" src="images/sculptures.jpg" alt="Sculpture">
+            <p>Sculpture</p>
+        </div>
+        <div class="art-type" id="pottery">
+            <img class="art-img" src="images/pottery.jpg" alt="Pottery">
+            <p>Pottery</p>
+        </div>
+        <div class="art-type" id="drawing">
+            <img class="art-img" src="images/drawing.jpg" alt="Drawing">
+            <p>Drawing</p>
+        </div>
+    </div>
+</div>
+<footer>
+    <p>&copy; 2024 AESTHETE. All rights reserved.</p>
+</footer>
+
+<script>
+    document.querySelectorAll('.art-type').forEach(item => {
+        item.addEventListener('click', event => {
+            const artTypeId = item.id;
+            switch (artTypeId) {
+                case 'painting':
+                    window.location.href = 'painting.html';
+                    break;
+                case 'sculpture':
+                    window.location.href = 'sculptures.html';
+                    break;
+                case 'pottery':
+                    window.location.href = 'pottery.html';
+                    break;
+                case 'drawing':
+                    window.location.href = 'drawing.html';
+                    break;
+            }
+        });
+    });
+
+db.collection('artworks').orderBy('uploadedAt', 'desc').get()
+    .then(snapshot => {
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            document.querySelector('.gallery').innerHTML += `
+                <div class="art-item">
+                    <img src="${data.imageUrl}" alt="${data.title}">
+                    <h3>${data.title}</h3>
+                    <p>${data.description}</p>
+                </div>
+            `;
+        });
+    });
+    </script>
+</body>
+</html>
