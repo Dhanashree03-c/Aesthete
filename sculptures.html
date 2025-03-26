@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AESTHETE</title>
+    <link rel="stylesheet" href="aesthete.css"> 
+</head>
+<body>
+<header>
+    <h1>AESTHETE</h1>
+    
+    <form class="search-form" action="search_results.html" method="GET">
+        <input type="text" name="q" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
+</header>
+
+<main>
+    <div class="product-listing" id="productListing">
+        <div class="product">
+            <img src="images/sculptures.jpg" alt="sculpture 1">
+            <div class="product-info">
+                <div class="description-content">
+                    <h2>Wooden Stree</h2>
+                    <p>Description: Size: 4 x 8 x 16.5  Inches</p>
+                    <p>Price:Rs. 9,000.00</p>
+                    <a href="https://khojcrafts.com/products/ganpati-3-stone-sculpture"><button>Buy Now</button></a>
+                </div>
+            </div>
+        </div>
+        <!-- Add more products here -->
+        <div class="product">
+            <img src="images/ram.png" alt="sculpture 2">
+            <div class="product-info">
+                <div class="description-content">
+                    <h2>27" The Nearly Perfect Ram Lalla Statue</h2>
+                    <p>Description: HEIGHT:	68.5 CM, WIDTH:	28 CM, WEIGHT: 35.65 KG</p>
+                    <p>Price: Rs.2,24,000</p>
+                     <a href="https://www.exoticindiaart.com/product/sculptures/27-nearly-perfect-ram-lalla-statue-ddk525/"><button>Buy Now</button></a>
+                </div>
+            </div>
+        </div>
+        <!-- Add more products here -->
+        <div class="product">
+            <img src="images/exotic india lord ganesha.jpg" alt="sculpture 3">
+            <div class="product-info">
+                <div class="description-content">
+                    <h2>Exotic India Lord Ganesha - Katappa Stone Statue (Crafted in Mahabalipuram)</h2>
+                    <p>Description: Colour-Multicolour
+Style-Antique
+Material-Stone</p>
+                    <p>Price: Rs.7,123</p>
+                     <a href="https://www.amazon.in/Exotic-India-Lord-Ganesha-Mahabalipuram/dp/B075F6CHM8"><button>Buy Now</button></a>
+                </div>
+            </div>
+        </div>
+		<div class="product">
+            <img src="images/White Bull Dog.jpg" alt="sculpture 4">
+            <div class="product-info">
+                <div class="description-content">
+                    <h2>gourvi's Creation Standing White Bull Dog Sculpture for Storage Purpose for Home Decor Living Room Showpiece Figurine</h2>
+                    <p>Description: Style-Modern
+Material-Resin</p>
+                    <p>Price: Rs.1,436</p>
+                     <a href="https://www.amazon.in/dp/B0D2L8MDZM/ref=sspa_dk_detail_6?psc=1&pd_rd_i=B0D2L8MDZM&pd_rd_w=KmkOZ&content-id=amzn1.sym.0fcdb56a-738b-4621-9da7-d47193883987&pf_rd_p=0fcdb56a-738b-4621-9da7-d47193883987&pf_rd_r=5QJKAZ1DN33W1458PAYM&pd_rd_wg=hTK95&pd_rd_r=8393073f-312d-47d0-8365-1865a847f38a&s=kitchen&sp_csd=d2lkZ2V0TmFtZT1zcF9kZXRhaWwy"><button>Buy Now</button></a>
+                </div>
+            </div>
+        </div>
+        <!-- Add more products here -->
+    </div>
+</main>
+<footer>
+    <p>&copy; 2024 AESTHETE. All rights reserved.</p>
+</footer>
+
+<script>
+    // Function to check if the bottom of the page is reached
+    function isBottom() {
+        return document.documentElement.clientHeight + window.scrollY >= document.documentElement.scrollHeight;
+    }
+
+    // Function to reveal hidden products when scrolling to the bottom
+    window.addEventListener('scroll', function() {
+        if (isBottom()) {
+            var hiddenProducts = document.querySelectorAll('.product.hidden');
+            hiddenProducts.forEach(function(product) {
+                product.classList.remove('hidden');
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

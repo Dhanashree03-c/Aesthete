@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AESTHETE</title>
+    <link rel="stylesheet" href="aesthete.css">
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-firestore.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+      
+        const firebaseConfig = {
+          apiKey: "AIzaSyC2XnboOJ3F4wwzzAJqew1BRQGXXIR6IzA",
+          authDomain: "aesthete-cc6a8.firebaseapp.com",
+          projectId: "aesthete-cc6a8",
+          storageBucket: "aesthete-cc6a8.firebasestorage.app",
+          messagingSenderId: "240029306766",
+          appId: "1:240029306766:web:51a6ec1e2526bf84141edf",
+        };
+      
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+      </script>
+      
+</head>
+<body>
+    <header>
+        <h1>AESTHETE</h1>		
+    </header>
+
+    <div class="container">
+        <h2>REGISTRATION</h2>
+        <form method="post">
+            <table>
+                <tr>
+                    <td>Name:</td>
+                    <td><input type="text" name="user_name" required></td>
+                </tr>
+                <tr>
+                    <td>Mobile Number:</td>
+                    <td><input type="tel" name="mob_no" required></td>
+                </tr>
+                <tr>
+                    <td>E-Mail Address:</td>
+                    <td><input type="email" name="email" required></td>
+                </tr>
+                <tr>
+                    <td>Username:</td>
+                    <td><input type="text" name="username" required></td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td><input type="password" name="password" required></td>
+                </tr>
+                <tr>
+                    <td>Birth Date:</td>
+                    <td><input type="date" name="birth_date" required></td>
+                </tr>
+                <tr>
+                    <td>Nationality:</td>
+                    <td><input type="text" name="nationality" required></td>
+                </tr>
+            </table>
+            <input type="submit" value="Submit">
+        </form>
+        <p>Already have an account? <a href="#" id="loginLink">Login here</a>.</p>
+    </div>
+
+    <!-- Login Modal -->
+    <script type="module">
+        document.getElementById("loginForm").addEventListener("submit", async function (event) {
+          event.preventDefault();
+          
+          const email = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+      
+          try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            alert("Login successful! Welcome, " + userCredential.user.email);
+            document.getElementById("loginModal").style.display = "none";
+          } catch (error) {
+            alert("Login failed: " + error.message);
+          }
+        });
+      </script>      
+
+    <footer>
+        <p>&copy; 2024 AESTHETE. All rights reserved.</p>
+    </footer>
+    
+    <!-- Submission logic -->
+    <script type="module">
+        document.querySelector("form").addEventListener("submit", async function (event) {
+          event.preventDefault();
+      
+          const name = document.querySelector("[name='user_name']").value;
+          const email = document.querySelector("[name='email']").value;
+          const password = document.querySelector("[name='password']").value;
+          const username = document.querySelector("[name='username']").value;
+          const mobile = document.querySelector("[name='mob_no']").value;
+          const birthDate = document.querySelector("[name='birth_date']").value;
+          const nationality = document.querySelector("[name='nationality']").value;
+      
+          try {
+            // Create user in Firebase Authentication
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+      
+            // Store user data in Firestore
+            await addDoc(collection(db, "users"), {
+              uid: user.uid,
+              name,
+              email,
+              username,
+              mobile,
+              birthDate,
+              nationality
+            });
+      
+            alert("Registration successful!");
+          } catch (error) {
+            alert("Error: " + error.message);
+          }
+        });
+      </script>      
+</body>
+</html>

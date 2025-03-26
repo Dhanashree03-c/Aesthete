@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AESTHETE</title>
+    <link rel="stylesheet" href="aesthete.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+<header>
+    <h1>AESTHETE</h1>
+    
+    <form class="search-form" action="search_results.html" method="GET">
+        <input type="text" name="q" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
+</header>
+
+<main>
+    <div class="product-listing" id="productListing">
+        <div class="product">
+            <img src="images/Blossoms Of Dream.jpg" alt="Painting 1">
+            <div class="product-info">
+                <div class="description-content">
+                    <h2>Blossoms Of Dream</h2>
+                    <p>Description: Handpainted Art Painting - 24in X 24in</p>
+                    <p>Price: RS10,874</p>
+                    <a href="https://www.fizdi.com/blossoms-of-dream-handpainted-art-painting-24in-x-24in/"><button>Buy Now</button></a>
+                </div>
+            </div>
+        </div>
+        <!-- Add more products here -->
+        <div class="product">
+             <img src="images/Tranquil Reflections Realistic Oil Painting.jpg" alt="Painting 2">
+            <div class="product-info">
+                <div class="description-content">
+                    <h2>Tranquil Reflections Realistic Oil Painting</h2>
+                    <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p>Price: RS6211.85</p>
+                    <a href="https://www.etsy.com/listing/1416178788/tranquil-reflections-realistic-oil"><button>Buy Now</button></a>
+                </div>
+            </div>
+        </div>
+        <!-- Add more products here -->
+        <div class="product">
+            <img src="images/Jacaranda-bloom-in-Pretoria.jpg" alt="Painting 3">
+            <div class="product-info">
+                <div class="description-content">
+                    <h2>Jacaranda Serenity:Street in Pretoria </h2>
+                    <p>Description: Oil on Canvas – 101 x 76cm.</p>
+                    <p>Price: RS9,000</p>
+                    <a href="https://tanyajacobszart.com/shop/jacaranda-serenity-street-in-pretoria/"><button>Buy Now</button></a>
+                </div>
+            </div>
+        </div>
+		<div class="product">
+            <img src="images/Ballerinas-Arabesque.jpg" alt="Painting 4">
+            <div class="product-info">
+                <div class="description-content">
+                    <h2>Ballerina's Arabesque</h2>
+                    <p>Description: Oil on canvas 50cm x 70 cm.</p>
+                    <p>Price: RS4,500</p>
+                   <a href="https://tanyajacobszart.com/shop/ballerinas-arabesque/"><button>Buy Now</button></a>
+                </div>
+            </div>
+        </div>
+        <!-- Add more products here -->
+    </div>
+</main>
+<footer>
+    <p>&copy; 2024 AESTHETE. All rights reserved.</p>
+</footer>
+
+<script>
+    // Function to check if the bottom of the page is reached
+    function isBottom() {
+        return document.documentElement.clientHeight + window.scrollY >= document.documentElement.scrollHeight;
+    }
+
+    // Function to reveal hidden products when scrolling to the bottom
+    window.addEventListener('scroll', function() {
+        if (isBottom()) {
+            var hiddenProducts = document.querySelectorAll('.product.hidden');
+            hiddenProducts.forEach(function(product) {
+                product.classList.remove('hidden');
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

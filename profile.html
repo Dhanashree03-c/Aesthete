@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="aesthete.css">
+    <title>Profile</title>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-storage.js";
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.5/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+      
+        const firebaseConfig = {
+          apiKey: "AIzaSyC2XnboOJ3F4wwzzAJqew1BRQGXXIR6IzA",
+          authDomain: "aesthete-cc6a8.firebaseapp.com",
+          projectId: "aesthete-cc6a8",
+          storageBucket: "aesthete-cc6a8.firebasestorage.app",
+          messagingSenderId: "240029306766",
+          appId: "1:240029306766:web:51a6ec1e2526bf84141edf",
+        };
+      
+        const app = initializeApp(firebaseConfig);
+        const storage = getStorage(app);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+      </script>
+      
+</head>
+<body>
+    <header>
+        <h1>AESTHETE</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="artist.html">Artist</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="upload.html" id="uploadLink">Upload Artwork</a></li>
+                <li style="margin-left:auto;"><a href="sign_up.html">Sign up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="profile-container">
+        <div class="profile-info">
+            <img id="profile-image" src="images/default profile pic.jpg" alt="Profile Picture">
+            <h2>USERNAME</h2>
+            <form id="profile-form">
+                <label class="custom-file-label">Choose Profile Picture</label><br>
+                <p><input type="file" id="file-input" class="custom-file-input" accept="image/*" onchange="previewImage()">
+            </form>
+            <p><label>Date of Birth:</label> <span>January 1, 1990</span></p>
+            <p><label>Email:</label> <span>username@example.com</span></p>
+            <p><label>Location:</label> <span>City, Country</span></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 AESTHETE. All rights reserved.</p>
+    </footer>
+
+    <script type="module">
+      
+        const profileImage = document.getElementById('profile-image');
+        const fileInput = document.getElementById('file-input');
+      
+        function previewImage() {
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    profileImage.src = e.target.result;
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+      
+        async function uploadProfilePicture(userId, file) {
+            try {
+                const storageRef = ref(storage, `profile_pictures/${userId}.jpg`);
+                await uploadBytes(storageRef, file);
+                const downloadURL = await getDownloadURL(storageRef);
+                
+                // Update Firestore with profile picture URL
+                const userRef = doc(db, "users", userId);
+                await updateDoc(userRef, { profilePic: downloadURL });
+      
+                profileImage.src = downloadURL;
+                alert("Profile picture updated successfully!");
+            } catch (error) {
+                console.error("Error uploading profile picture:", error);
+                alert("Error uploading profile picture. Please try again.");
+            }
+        }
+      
+        fileInput.addEventListener("change", async function() {
+            const user = auth.currentUser;
+            if (!user) {
+                alert("You must be logged in to update your profile picture.");
+                return;
+            }
+            const file = fileInput.files[0];
+            if (file) {
+                await uploadProfilePicture(user.uid, file);
+            }
+        });
+      
+        // Load User Profile Information
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userRef = doc(db, "users", user.uid);
+                const userDoc = await getDoc(userRef);
+      
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    document.querySelector("h2").textContent = userData.username;
+                    document.querySelector("span:nth-of-type(1)").textContent = userData.dob || "N/A";
+                    document.querySelector("span:nth-of-type(2)").textContent = userData.email;
+                    document.querySelector("span:nth-of-type(3)").textContent = userData.location || "N/A";
+                    
+                    if (userData.profilePic) {
+                        profileImage.src = userData.profilePic;
+                    }
+                }
+            }
+        });
+      </script>      
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AESTHETE</title>
+	<link rel="stylesheet" href="aesthete.css"> 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-storage.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-firestore.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+      
+        const firebaseConfig = {
+          apiKey: "AIzaSyC2XnboOJ3F4wwzzAJqew1BRQGXXIR6IzA",
+          authDomain: "aesthete-cc6a8.firebaseapp.com",
+          projectId: "aesthete-cc6a8",
+          storageBucket: "aesthete-cc6a8.firebasestorage.app",
+          messagingSenderId: "240029306766",
+          appId: "1:240029306766:web:51a6ec1e2526bf84141edf",
+        };
+      
+        const app = initializeApp(firebaseConfig);
+        const storage = getStorage(app);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+      </script>
+      
+</head>
+<body>
+    <header>
+        <h1>AESTHETE</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="artist.html">Artist</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="profile.html">Profile</a></li>
+				<li><a href="upload_artwork.html">Upload Artwork</a></li>
+                <li align="RIGHT"><a href="sign_up.html">Sign up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Upload Your Artwork</h2>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required><br><br>
+
+            <label for="description">Description:</label><br>
+            <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
+
+            <label for="image">Image:</label>
+            <input type="file" id="image" name="image" accept="image/*" required><br><br>
+
+            <button type="submit">Upload</button>
+        </form>
+        <p id="message"></p>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 AESTHETE. All rights reserved.</p>
+    </footer>
+
+	<script type="module">
+        document.addEventListener('DOMContentLoaded', function() {
+          const uploadForm = document.getElementById('uploadForm');
+          const message = document.getElementById('message');
+      
+          uploadForm.addEventListener('submit', async function(event) {
+              event.preventDefault();
+      
+              const title = document.getElementById('title').value;
+              const description = document.getElementById('description').value;
+              const imageFile = document.getElementById('image').files[0];
+      
+              if (!imageFile) {
+                  message.textContent = "Please select an image.";
+                  message.style.color = "red";
+                  return;
+              }
+      
+              try {
+                  const user = auth.currentUser;
+                  if (!user) {
+                      message.textContent = "You must be logged in to upload.";
+                      message.style.color = "red";
+                      return;
+                  }
+      
+                  // Upload Image to Firebase Storage
+                  const storageRef = ref(storage, `artworks/${user.uid}/${imageFile.name}`);
+                  const snapshot = await uploadBytes(storageRef, imageFile);
+                  const imageUrl = await getDownloadURL(snapshot.ref);
+      
+                  // Save metadata in Firestore
+                  await addDoc(collection(db, "artworks"), {
+                      userId: user.uid,
+                      title,
+                      description,
+                      imageUrl,
+                      timestamp: new Date()
+                  });
+      
+                  message.textContent = "Artwork uploaded successfully!";
+                  message.style.color = "green";
+                  uploadForm.reset();
+              } catch (error) {
+                  console.error("Error uploading:", error);
+                  message.textContent = "Error uploading artwork. Please try again later.";
+                  message.style.color = "red";
+              }
+          });
+        });
+      </script>      
+</body>
+</html>

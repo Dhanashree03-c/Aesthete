@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AESTHETE</title>
+    <link rel="stylesheet" href="aesthete.css">
+</head>
+<body>
+<header>
+    <h1>AESTHETE</h1>
+    <form class="search-form" action="search_results.html" method="GET">
+        <input type="text" name="q" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
+</header>
+<main>
+    <div class="product-listing" id="productListing">
+        <div class="product">
+            <img src="images/drawing.jpg" alt="drawing 1">
+            <div class="product-info">
+                <h2>Mama Gaia</h2>
+                <p>W:56cm X H:76cm X D:0.1cm (paper size unframed)</p>
+                <p>Price: RS13,000</p>
+                <a href="https://www.stateoftheart-gallery.com/art/drawing/mama-gaia-by-kendall-leigh-nash/9375"><button>Buy Now</button></a>
+            </div>
+        </div>
+        <div class="product">
+            <img src="images/thinking1.jpg" alt="drawing 2">
+            <div class="product-info">
+                <h2>Drawings For Thinking #1</h2>
+                <p>W:26cm X H:26cm X D:3.5cm (framed dimensions)</p>
+                <p>Price: RS4,500</p>
+                <a href="https://www.stateoftheart-gallery.com/art/drawing/drawings-for-thinking-1-by-karin-daymond/8633"><button>Buy Now</button></a>
+            </div>
+        </div>
+    </div>
+</main>
+<footer>
+    <p>&copy; 2024 AESTHETE. All rights reserved.</p>
+</footer>
+<script>
+    function isBottom() {
+        return document.documentElement.clientHeight + window.scrollY >= document.documentElement.scrollHeight;
+    }
+    window.addEventListener('scroll', function() {
+        let hiddenProducts = document.querySelectorAll('.product.hidden');
+        for (let i = 0; i < Math.min(hiddenProducts.length, 2); i++) {
+            hiddenProducts[i].classList.remove('hidden');
+        }
+    });
+</script>
+</body>
+</html>

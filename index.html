@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AESTHETE</title>
+    <link rel="stylesheet" href="aesthete.css"> 
+	<link rel="stylesheet" href="jquery.flipster.min.css">
+	
+</head>
+<body>
+    <header>
+        <h1>AESTHETE</h1>		
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="artist.html">Artist</a></li>
+                <li><a href="contact.html">Contact</a></li>
+				<li><a href="profile.html">Profile</a></li>
+                <li><a href="upload.html" id="uploadLink">Upload Artwork</a></li>
+				<li align="RIGHT"><a href="sign_up.html">Sign up</a></li>
+            </ul>
+        </nav>
+		<form class="search-form" action="search_results.html" method="GET">
+           <input type="text" name="q" placeholder="Search...">
+           <button type="submit">Search</button>
+         </form>
+    </header>
+
+    <h2>WELCOME TO OUR WEBSITE!!!</h2>    
+	<div class="home">
+        <div class="artifacts">
+            <ul>
+                <li><a href="https://plantlane.com/products/ceramic-5-kullad-pot?_pos=1&_sid=84584f827&_ss=r"><img src="images/plantlane.png" alt=""></a></li>
+                <li><a href="https://plantlane.com/products/ball-shaped-round-glass-vase-for-money-plant-set-of-2"><img src="images/apple shaped pot.png" alt=""></a></li>
+                <li><a href="https://www.fizdi.com/blossoms-of-dream-handpainted-art-painting-24in-x-24in/"><img src="images/Blossoms Of Dream .jpg" alt=""></a></li>
+                <li><a href="https://khojcrafts.com/products/ganpati-3-stone-sculpture"><img src="images/sculptures.jpg" alt=""></a></li>
+                <li><a href="https://fineartamerica.com/featured/muscle-car-1175-ford-fairlane-supercar-with-6jpg-clark-leffler.html"><img src="images/muscle-car.jpg" alt=""></a></li>
+				<li><a href="https://www.stateoftheart-gallery.com/art/drawing/mama-gaia-by-kendall-leigh-nash/9375"><img src="images/drawing.jpg" alt=""></a></li>
+				<li><a href="https://www.stateoftheart-gallery.com/art/drawing/drawings-for-thinking-9-by-karin-daymond/8636"><img src="images/thinking9.jpg" alt=""></a></li>
+            </ul>
+        </div>
+    </div>
+   
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="jquery.flipster.min.js"></script>
+
+    <script>$('.artifacts').flipster({
+        style: 'carousel',
+        spacing: -0.5,
+    });
+    </script>
+
+	 <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Login</h3>
+            <form id="loginForm">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required><br><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br><br>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+	
+	<footer>
+        <p>&copy; 2024 AESTHETE. All rights reserved.</p>
+    </footer>
+	
+    <script type="module">
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+
+    const auth = getAuth();
+    const uploadLink = document.getElementById('uploadLink');
+    const loginModal = document.getElementById('loginModal');
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            uploadLink.href = "upload.html"; // Allow access
+        } else {
+            uploadLink.addEventListener("click", (event) => {
+                event.preventDefault();
+                loginModal.style.display = "block";
+            });
+        }
+    });
+
+    // Close Modal
+    document.querySelector('.close').addEventListener('click', () => {
+        loginModal.style.display = "none";
+    });
+
+    window.onclick = (event) => {
+        if (event.target == loginModal) {
+            loginModal.style.display = "none";
+        }
+    };
+</script>
+</body>
+</html>
+
